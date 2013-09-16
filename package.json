@@ -1,0 +1,29 @@
+{
+  "name": "Snippetr",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.2.0",
+    "mongoose": "*",
+    "passport": "*",
+    "bcrypt": "*"
+  },
+  "description": "Snippet library",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justanodeinthenet/snippetr.git"
+  },
+  "keywords": [
+    "snippets",
+    "code",
+    "sharing"
+  ],
+  "author": "dmitri@justanodeinthenet",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
