@@ -37,6 +37,7 @@ app.configure(function() {
 });
 
 require('./server/config/passport');
+require('./server/models/snippet');
 require('./server/models/user');
 require('./server/config/routes')(app);
 
