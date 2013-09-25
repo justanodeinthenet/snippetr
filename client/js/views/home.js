@@ -2,20 +2,43 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  //Main template for this view
   'text!templates/home.html'
-], function($, _, Backbone, homeMainTemplate){
+],
 
-	var homeView = Backbone.View.extend({
-		el: $('body'),
-		initialize: function(){
-		},
-		render: function(){
-			var data = {};
-			//We can add some data to the template here if needed
-			// this.$el.html( _.template( homeMainTemplate, data ) );
-		}
-	});
+function($, _, Backbone, homeMainTemplate){
+
+  var homeView = Backbone.View.extend({
+    el: $('body'),
+    initialize: function(){
+    },
+    events: {
+      "click #search": "performSearch",
+      "click #submit": "submit",
+      "click #list": "list"
+    },
+    performSearch: function (){
+      $.get('/logout', function(data) {
+        Backbone.history.navigate('/login', { trigger: true });
+      });
+    },
+    list: function (){
+      $.get('/api/snippets', function(data) {
+        Backbone.history.navigate('/login', { trigger: true });
+      });
+    },
+    submit: function (){
+      var title = $('input[name=title]').val(),
+          body = $('input[name=body]').val();
+      $.post('/api/snippets/add', { title: title, body: body }, function(data) {
+        // Backbone.history.navigate('/', { trigger: true });
+      });
+      return false;
+    },
+    render: function(){
+        // var data = {};
+        this.$el.html(homeMainTemplate);
+    }
+  });
 
   return new homeView;
 });

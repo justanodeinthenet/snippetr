@@ -3,8 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!templates/login.html'
-], function($, _, Backbone, Router, viewTemplate) {
-  console.log(Router)
+], function($, _, Backbone, loginTemplate) {
   var loginView = Backbone.View.extend({
       el: $('body'),
       initialize: function(){
@@ -13,14 +12,16 @@ define([
         "click #login": "performLogin"
       },
       performLogin: function(){
-        $.post('/login', {username: $('input[name=username]').val(), password: $('input[name=password]').val()}, function(data) {
-          /* Login and go to #home */
-          // Router.router.navigate('/', { trigger: true });
+        var username = $('input[name=username]').val(),
+            password = $('input[name=password]').val();
+
+        $.post('/login', {username: username, password: password}, function(data) {
+          Backbone.history.navigate('/', { trigger: true });
         });
         return false;
       },
       render: function(){
-        this.$el.html(viewTemplate);
+        this.$el.html(loginTemplate);
         return this;
       }
   });
