@@ -1,5 +1,6 @@
 
 var user = require('../controllers/user')
+  , snippet = require('../controllers/snippet')
   , passport = require('passport');
 
 module.exports = function(app){
@@ -23,17 +24,19 @@ module.exports = function(app){
     res.redirect('/');
   });
 
-  app.get('/loggedin', function(req, res){
-    res.send(req.isAuthenticated() ? req.user : '0');
-  });
-
-  // app.get('/', ensureAuthenticated)
-  app.get('/api/*', ensureAuthenticated);
-  app.get('/api/users', user.list);
-  app.get('/api/users/:id', user.find);
+  // app.get('/api/*', ensureAuthenticated);
+  app.get('/api/users', ensureAuthenticated, user.list);
+  app.get('/api/users/:id', ensureAuthenticated, user.find);
   app.post('/api/users', user.register);
-  app.put('/api/users/:id', user.edit);
-  app.delete('/api/users/:id', user.delete);
+  app.put('/api/users/:id', ensureAuthenticated, user.edit);
+  app.delete('/api/users/:id', ensureAuthenticated, user.delete);
+
+  app.get('/api/snippets', snippet.list);
+  // app.get('/api/snippets/:id', snippet.find);
+  app.get('/api/snippets/:id', snippet.search);
+  app.post('/api/snippets', snippet.add);
+  app.put('/api/snippets/:id', ensureAuthenticated, snippet.edit);
+  app.delete('/api/snippets/:id', ensureAuthenticated, snippet.delete);
 };
 
 function ensureAuthenticated(req, res, next) {

@@ -1,14 +1,14 @@
 /*
   *
-  * API: Users
+  * API: snippet
   *
 */
 
 /* all users */
 exports.list = function(req, res){
-  return UserModel.find(function (err, snippets) {
+  return SnippetModel.find(function (err, snippets) {
     if (!err) {
-      return res.send(users);
+      return res.send(snippets);
     } else {
       return console.log(err);
     }
@@ -17,14 +17,17 @@ exports.list = function(req, res){
 
 /* registration */
 exports.add = function(req, res){
-  var user;
+  var snippet;
+  var body = req.body.body,
+      keywords = body.split(" ");
 
-  user = new UserModel({
-    username: req.body.username,
-    password: req.body.password
+  snippet = new SnippetModel({
+    title: req.body.title,
+    body: req.body.body,
+    keywords: keywords
   });
 
-  user.save(function (err) {
+  snippet.save(function (err) {
     if (!err) {
       return console.log("created");
     } else {
@@ -32,39 +35,50 @@ exports.add = function(req, res){
     }
   });
 
-  return res.send(user);
+  return res.send(snippet);
 };
 
-/* find user */
-exports.find = function(req, res){
-  return UserModel.findById(req.params.id, function (err, user) {
+/* find snippet */
+exports.search = function(req, res){
+  return SnippetModel.find( {keywords: req.params.id }, function (err, snippet) {
     if (!err) {
-      return res.send(user);
+      return res.send(snippet);
     } else {
       return console.log(err);
     }
   });
 };
 
-/* edit user */
+/* find snippet */
+exports.find = function(req, res){
+  return SnippetModel.findById(req.params.id, function (err, snippet) {
+    if (!err) {
+      return res.send(snippet);
+    } else {
+      return console.log(err);
+    }
+  });
+};
+
+/* edit snippet */
 exports.edit = function(req, res){
-  return UserModel.findById(req.params.id, function (err, user) {
-    user.password = req.body.password;
-    return user.save(function (err) {
+  return SnippetModel.findById(req.params.id, function (err, snippet) {
+    snippet.password = req.body.password;
+    return snippet.save(function (err) {
       if (!err) {
         console.log("updated");
       } else {
         console.log(err);
       }
-      return res.send(user);
+      return res.send(snippet);
     });
   });
 };
 
-/* delete user */
+/* delete snippet */
 exports.delete = function(req, res){
-  return UserModel.findById(req.params.id, function (err, user) {
-    return user.remove(function (err) {
+  return SnippetModel.findById(req.params.id, function (err, snippet) {
+    return snippet.remove(function (err) {
       if (!err) {
         console.log("removed");
         return res.send('');
