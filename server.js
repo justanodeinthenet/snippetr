@@ -8,7 +8,7 @@ var express = require('express')
   , app = express();
 
 mongoose.connect('mongodb://localhost/snippets_db');
-
+/* */
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.use(express.favicon());
