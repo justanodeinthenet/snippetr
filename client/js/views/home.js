@@ -30,7 +30,7 @@ function($, _, Backbone, homeMainTemplate){
       var title = $('input[name=title]').val(),
           body = $('input[name=body]').val();
       $.post('/api/snippets/add', { title: title, body: body }, function(data) {
-        // Backbone.history.navigate('/', { trigger: true });
+        Backbone.history.navigate('/', { trigger: true });
       });
       return false;
     },
